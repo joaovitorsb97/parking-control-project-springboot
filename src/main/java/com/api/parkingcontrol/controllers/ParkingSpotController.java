@@ -1,10 +1,16 @@
 package com.api.parkingcontrol.controllers;
 
+import com.api.parkingcontrol.dtos.ParkingSpotDto;
+import com.api.parkingcontrol.models.ParkingSpot;
 import com.api.parkingcontrol.services.ParkingSpotService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.time.Instant;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -16,5 +22,13 @@ public class ParkingSpotController {
 
     public ParkingSpotController(ParkingSpotService parkingSpotService) {
         this.parkingSpotService = parkingSpotService;
+    }
+
+    @PostMapping
+    public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto){
+        var parkingSpot = new ParkingSpot();
+        BeanUtils.copyProperties(parkingSpotDto, parkingSpot);
+        parkingSpot.setRegistrationMoment(Instant.now());
+        return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpot));
     }
 }

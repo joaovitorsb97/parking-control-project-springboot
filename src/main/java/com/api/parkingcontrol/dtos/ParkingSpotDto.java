@@ -9,6 +9,9 @@ public class ParkingSpotDto {
     @NotBlank
     private String block;
 
+    /* @NotBlank
+    private CarDto carDto; */
+
     public String getParkingSpotNumber() {
         return parkingSpotNumber;
     }

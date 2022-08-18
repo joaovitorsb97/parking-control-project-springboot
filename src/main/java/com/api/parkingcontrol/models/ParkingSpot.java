@@ -1,5 +1,7 @@
 package com.api.parkingcontrol.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
@@ -17,12 +19,14 @@ public class ParkingSpot implements Serializable {
     @Column(nullable = false, unique = true, length = 10)
     private String parkingSpotNumber;
     @Column(nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant registrationMoment;
     @Column(nullable = false, length = 30)
     private String block;
 
+    /*
     @OneToOne(mappedBy = "parkingSpot", cascade = CascadeType.ALL)
-    private Car car;
+    private Car car; */
 
     public ParkingSpot() {
     }
