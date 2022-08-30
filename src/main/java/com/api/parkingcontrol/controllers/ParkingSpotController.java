@@ -1,7 +1,7 @@
 package com.api.parkingcontrol.controllers;
 
 import com.api.parkingcontrol.dtos.ParkingSpotDto;
-import com.api.parkingcontrol.models.ParkingSpot;
+import com.api.parkingcontrol.models.ParkingSpotModel;
 import com.api.parkingcontrol.services.ParkingSpotService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,6 @@ public class ParkingSpotController {
     public ParkingSpotController(ParkingSpotService parkingSpotService) {
         this.parkingSpotService = parkingSpotService;
     }
-
     @PostMapping
     public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto){
         if(parkingSpotService.existsByParkingSpotNumber(parkingSpotDto.getParkingSpotNumber())){
@@ -33,14 +32,13 @@ public class ParkingSpotController {
         if(parkingSpotService.existsByBlock(parkingSpotDto.getBlock())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Block is already used!");
         }
-
-        var parkingSpot = new ParkingSpot();
+        var parkingSpot = new ParkingSpotModel();
         BeanUtils.copyProperties(parkingSpotDto, parkingSpot);
         parkingSpot.setRegistrationMoment(Instant.now());
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpot));
     }
     @GetMapping
-    public ResponseEntity<List<ParkingSpot>> findAll(){
+    public ResponseEntity<List<ParkingSpotModel>> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.findAll());
     }
 }

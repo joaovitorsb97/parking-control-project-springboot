@@ -7,9 +7,9 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "tb_car")
-public class Car implements Serializable {
-
+public class CarModel implements Serializable {
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
@@ -24,12 +24,12 @@ public class Car implements Serializable {
 
     @MapsId
     @OneToOne
-    private ParkingSpot parkingSpot;
+    private ParkingSpotModel parkingSpotModel;
 
-    public Car() {
+    public CarModel() {
     }
 
-    public Car(UUID id, String licensePlateCar, String brandCar, String modelCar, String colorCar) {
+    public CarModel(UUID id, String licensePlateCar, String brandCar, String modelCar, String colorCar) {
         this.id = id;
         this.licensePlateCar = licensePlateCar;
         this.brandCar = brandCar;
@@ -77,12 +77,20 @@ public class Car implements Serializable {
         this.colorCar = colorCar;
     }
 
+    public ParkingSpotModel getParkingSpotModel() {
+        return parkingSpotModel;
+    }
+
+    public void setParkingSpotModel(ParkingSpotModel parkingSpotModel) {
+        this.parkingSpotModel = parkingSpotModel;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Car car = (Car) o;
-        return Objects.equals(id, car.id);
+        CarModel carModel = (CarModel) o;
+        return Objects.equals(id, carModel.id);
     }
 
     @Override

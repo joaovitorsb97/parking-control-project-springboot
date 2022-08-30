@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "tb_parking_spot")
-public class ParkingSpot implements Serializable {
+public class ParkingSpotModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -24,14 +24,13 @@ public class ParkingSpot implements Serializable {
     @Column(nullable = false, length = 30)
     private String block;
 
-    /*
-    @OneToOne(mappedBy = "parkingSpot", cascade = CascadeType.ALL)
-    private Car car; */
+    @OneToOne(mappedBy = "parkingSpotModel", cascade = CascadeType.ALL)
+    private CarModel car;
 
-    public ParkingSpot() {
+    public ParkingSpotModel() {
     }
 
-    public ParkingSpot(UUID id, String parkingSpotNumber, Instant registrationMoment, String block) {
+    public ParkingSpotModel(UUID id, String parkingSpotNumber, Instant registrationMoment, String block) {
         this.id = id;
         this.parkingSpotNumber = parkingSpotNumber;
         this.registrationMoment = registrationMoment;
@@ -70,14 +69,21 @@ public class ParkingSpot implements Serializable {
         this.block = block;
     }
 
+    public CarModel getCar() {
+        return car;
+    }
+
+    public void setCar(CarModel car) {
+        this.car = car;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ParkingSpot that = (ParkingSpot) o;
+        ParkingSpotModel that = (ParkingSpotModel) o;
         return Objects.equals(id, that.id);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(id);
